@@ -17,32 +17,28 @@ namespace MicroserviceSquare.Controllers
         [HttpGet]
         public IActionResult GetSections()
         {
-            using (SquareCatalogContext context = new SquareCatalogContext())
-            {
-                var res = context.Sections.Select(x => x);
-                return Ok(res);
-            }
-    
-        }        
+            SquareCatalogContext context = new SquareCatalogContext();
+            var res = context.Sections.Select(x => x);
+            return Ok(res);
+        }
         [HttpPost]
         public IActionResult PostSection(SectionInsert section)
         {
             if (ModelState.IsValid)
             {
-                using (SquareCatalogContext context = new SquareCatalogContext())
+                SquareCatalogContext context = new SquareCatalogContext();
+                Square square = context.Squares.Find(section.SquareId);
+                context.Sections.Add(new Section
                 {
-                    Square square = context.Squares.Find(section.SquareId);
-                    context.Sections.Add(new Section
-                    {
-                        SectionId = section.SectionId,
-                        Name = section.Name,
-                        Square = square
-                    });
-                    var res = context.SaveChanges();
-                    return Ok(res);
-                }
+                    SectionId = section.SectionId,
+                    Name = section.Name,
+                    Square = square
+                });
+                var res = context.SaveChanges();
+                return Ok(res);
             }
             return BadRequest();
-        }
+        }            
     }
 }
+

@@ -18,34 +18,30 @@ namespace MicroserviceSquare.Controllers
         [HttpGet]
         public IActionResult GetLanes()
         {
-            using (SquareCatalogContext context = new SquareCatalogContext())
-            {
-                var res = context.Lanes.Select(x => x);
-                return Ok(res);
-            }
+            SquareCatalogContext context = new SquareCatalogContext();
+            var res = context.Lanes.Select(x => x);
+            return Ok(res);
         }
         [HttpPost]
         public IActionResult PostLane(LaneInsert lane)
         {
             if (ModelState.IsValid)
             {
-                using (SquareCatalogContext context = new SquareCatalogContext())
-                {
-                    Square square = context.Squares.Find(lane.SquareId);
-                    Section section = context.Sections.Find(lane.SectionId);
-                    TypeLane typelane = context.TypeLanes.Find(lane.TypeLaneId);
+                SquareCatalogContext context = new SquareCatalogContext();
+                Square square = context.Squares.Find(lane.SquareId);
+                Section section = context.Sections.Find(lane.SectionId);
+                TypeLane typelane = context.TypeLanes.Find(lane.TypeLaneId);
 
-                    context.Lanes.Add(new Lane
-                    {
-                        NumberProvider = lane.NumberProvider,
-                        NumberGea = lane.NumberGea,
-                        TypeLane = typelane,
-                        Section = section,
-                        Square = square
-                    });
-                    var res = context.SaveChanges();
-                    return Ok(res);
-                }
+                context.Lanes.Add(new Lane
+                {
+                    NumberProvider = lane.NumberProvider,
+                    NumberGea = lane.NumberGea,
+                    TypeLane = typelane,
+                    Section = section,
+                    Square = square
+                });
+                var res = context.SaveChanges();
+                return Ok(res);
             }
             return BadRequest();
         }

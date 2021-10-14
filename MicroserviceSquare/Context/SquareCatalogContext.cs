@@ -11,7 +11,7 @@ namespace MicroserviceSquare.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-79J7I41;Database=TestSquare;User Id=sa;Password=LaVacaLoca16;");
+            optionsBuilder.UseSqlServer(@"Server=10.1.1.159;Database=TestSquare;User Id=sa;Password=LaVacaLoca16;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

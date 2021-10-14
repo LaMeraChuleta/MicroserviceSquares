@@ -15,24 +15,19 @@ namespace MicroserviceSquare.Controllers
         [HttpGet]
         public IActionResult GetDelegations()
         {
-
-            using (SquareCatalogContext context = new SquareCatalogContext())
-            {
-                var res = context.Delegations.Select(x => x);
-                return Ok(res);
-            }          
+            SquareCatalogContext context = new SquareCatalogContext();            
+            var res = context.Delegations.Select(x => x);
+            return Ok(res);                      
         }
         [HttpPost]
         public IActionResult PostDelegation(Delegation delegation)
         {            
             if (ModelState.IsValid)
             {
-                using (SquareCatalogContext context = new SquareCatalogContext())
-                {
-                    context.Delegations.Add(delegation);
-                    var res = context.SaveChanges();
-                    return Ok(res);
-                }
+                SquareCatalogContext context = new SquareCatalogContext();                
+                context.Delegations.Add(delegation);
+                var res = context.SaveChanges();
+                return Ok(res);                
             }
             return BadRequest();
         }       

@@ -17,26 +17,22 @@ namespace MicroserviceSquare.Controllers
         [HttpGet]
         public IActionResult GetTypeLanes()
         {
-            using (SquareCatalogContext context = new SquareCatalogContext())
-            {
-                var res = context.TypeLanes.Select(x => x);
-                return Ok(res);
-            }
+            SquareCatalogContext context = new SquareCatalogContext();
+            var res = context.TypeLanes.Select(x => x);
+            return Ok(res);
         }
         [HttpPost]
         public IActionResult PostTypeLane(TypeLaneInsert typeLane)
         {
             if (ModelState.IsValid)
             {
-                using(SquareCatalogContext context = new SquareCatalogContext())
-                {                            
-                    context.TypeLanes.Add(new TypeLane
-                    {
-                        Name = typeLane.Name,
-                    });
-                    var res = context.SaveChanges();
-                    return Ok(res);
-                }
+                SquareCatalogContext context = new SquareCatalogContext();
+                context.TypeLanes.Add(new TypeLane
+                {
+                    Name = typeLane.Name,
+                });
+                var res = context.SaveChanges();
+                return Ok(res);
             }
             return BadRequest();
         }
