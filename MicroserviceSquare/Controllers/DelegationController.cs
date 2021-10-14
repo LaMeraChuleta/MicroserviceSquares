@@ -12,11 +12,17 @@ namespace MicroserviceSquare.Controllers
     [Route("[controller]")]
     public class DelegationController : ControllerBase
     {               
+        private readonly SquareCatalogContext _dbcontext;
+
+        public DelegationController(SquareCatalogContext squareCatalogContext)
+        {
+            _dbcontext = squareCatalogContext;
+        }
+
         [HttpGet]
         public IActionResult GetDelegations()
-        {
-            SquareCatalogContext context = new SquareCatalogContext();            
-            var res = context.Delegations.Select(x => x);
+        {                   
+            var res = _dbcontext.Delegations.Select(x => x);
             return Ok(res);                      
         }
         [HttpPost]
@@ -24,9 +30,9 @@ namespace MicroserviceSquare.Controllers
         {            
             if (ModelState.IsValid)
             {
-                SquareCatalogContext context = new SquareCatalogContext();                
-                context.Delegations.Add(delegation);
-                var res = context.SaveChanges();
+
+                _dbcontext.Delegations.Add(delegation);
+                var res = _dbcontext.SaveChanges();
                 return Ok(res);                
             }
             return BadRequest();

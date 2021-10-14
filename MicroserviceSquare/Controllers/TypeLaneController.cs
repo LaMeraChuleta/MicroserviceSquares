@@ -14,11 +14,17 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     public class TypeLaneController : ControllerBase
     {
+        private readonly SquareCatalogContext _dbcontext;
+
+        public TypeLaneController(SquareCatalogContext squareCatalogContext)
+        {
+            _dbcontext = squareCatalogContext;
+        }
+
         [HttpGet]
         public IActionResult GetTypeLanes()
-        {
-            SquareCatalogContext context = new SquareCatalogContext();
-            var res = context.TypeLanes.Select(x => x);
+        {            
+            var res = _dbcontext.TypeLanes.Select(x => x);
             return Ok(res);
         }
         [HttpPost]
@@ -26,12 +32,11 @@ namespace MicroserviceSquare.Controllers
         {
             if (ModelState.IsValid)
             {
-                SquareCatalogContext context = new SquareCatalogContext();
-                context.TypeLanes.Add(new TypeLane
+                _dbcontext.TypeLanes.Add(new TypeLane
                 {
                     Name = typeLane.Name,
                 });
-                var res = context.SaveChanges();
+                var res = _dbcontext.SaveChanges();
                 return Ok(res);
             }
             return BadRequest();

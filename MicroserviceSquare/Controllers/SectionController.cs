@@ -14,27 +14,32 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     public class SectionController : ControllerBase
     {
+        private readonly SquareCatalogContext _dbcontext;
+
+        public SectionController(SquareCatalogContext squareCatalogContext)
+        {
+            _dbcontext = squareCatalogContext;
+        }
+
         [HttpGet]
         public IActionResult GetSections()
-        {
-            SquareCatalogContext context = new SquareCatalogContext();
-            var res = context.Sections.Select(x => x);
+        {            
+            var res = _dbcontext.Sections.Select(x => x);
             return Ok(res);
         }
         [HttpPost]
         public IActionResult PostSection(SectionInsert section)
         {
             if (ModelState.IsValid)
-            {
-                SquareCatalogContext context = new SquareCatalogContext();
-                Square square = context.Squares.Find(section.SquareId);
-                context.Sections.Add(new Section
+            {                
+                Square square = _dbcontext.Squares.Find(section.SquareId);
+                _dbcontext.Sections.Add(new Section
                 {
                     SectionId = section.SectionId,
                     Name = section.Name,
                     Square = square
                 });
-                var res = context.SaveChanges();
+                var res = _dbcontext.SaveChanges();
                 return Ok(res);
             }
             return BadRequest();

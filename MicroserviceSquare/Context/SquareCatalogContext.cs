@@ -9,9 +9,16 @@ namespace MicroserviceSquare.Context
 {
     public class SquareCatalogContext : DbContext
     {
+        public SquareCatalogContext(DbContextOptions<SquareCatalogContext> options) : base(options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=10.1.1.159;Database=TestSquare;User Id=sa;Password=LaVacaLoca16;");
+            if (optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=LAPTOP-HB3OGAHI\\MSSQLSERVER01;Database=testsquare;Trusted_Connection=True;");
+            }                            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,7 +1,9 @@
+using MicroserviceSquare.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +28,15 @@ namespace MicroserviceSquare
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            var server = Configuration["dbServer"] ?? "LAPTOP-HB3OGAHI\\MSSQLSERVER01";
+            var port = Configuration["dbPort"] ?? "1433";
+            var user = Configuration["dbUser"] ?? "sa2";
+            var password = Configuration["dbPassword"] ?? "CAPUFE";
+            var database = Configuration["dbName"] ?? "testsquare";
+            services.AddDbContext<SquareCatalogContext>(options =>
+            {
+                options.UseSqlServer($"Server={server};Database={database};User Id={user};Password={password}");
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

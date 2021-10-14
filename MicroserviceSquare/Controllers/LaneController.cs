@@ -15,11 +15,16 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     public class LaneController : ControllerBase
     {
+        private readonly SquareCatalogContext _dbcontext;
+
+        public LaneController(SquareCatalogContext squareCatalogContext)
+        {
+            _dbcontext = squareCatalogContext;
+        }
         [HttpGet]
         public IActionResult GetLanes()
-        {
-            SquareCatalogContext context = new SquareCatalogContext();
-            var res = context.Lanes.Select(x => x);
+        {            
+            var res = _dbcontext.Lanes.Select(x => x);
             return Ok(res);
         }
         [HttpPost]
@@ -27,12 +32,12 @@ namespace MicroserviceSquare.Controllers
         {
             if (ModelState.IsValid)
             {
-                SquareCatalogContext context = new SquareCatalogContext();
-                Square square = context.Squares.Find(lane.SquareId);
-                Section section = context.Sections.Find(lane.SectionId);
-                TypeLane typelane = context.TypeLanes.Find(lane.TypeLaneId);
+                
+                Square square = _dbcontext.Squares.Find(lane.SquareId);
+                Section section = _dbcontext.Sections.Find(lane.SectionId);
+                TypeLane typelane = _dbcontext.TypeLanes.Find(lane.TypeLaneId);
 
-                context.Lanes.Add(new Lane
+                _dbcontext.Lanes.Add(new Lane
                 {
                     NumberProvider = lane.NumberProvider,
                     NumberGea = lane.NumberGea,
@@ -40,7 +45,7 @@ namespace MicroserviceSquare.Controllers
                     Section = section,
                     Square = square
                 });
-                var res = context.SaveChanges();
+                var res = _dbcontext.SaveChanges();
                 return Ok(res);
             }
             return BadRequest();

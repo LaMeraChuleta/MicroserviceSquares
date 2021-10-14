@@ -14,27 +14,32 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     public class SquareController : ControllerBase
     {
+        private readonly SquareCatalogContext _dbcontext;
+
+        public SquareController(SquareCatalogContext squareCatalogContext)
+        {
+            _dbcontext = squareCatalogContext;
+        }
+
         [HttpGet]
         public IActionResult GetSquares()
-        {
-            SquareCatalogContext context = new SquareCatalogContext();            
-            var res = context.Squares.Select(x => x);
+        {            
+            var res = _dbcontext.Squares.Select(x => x);
             return Ok(res);                                    
         }
         [HttpPost]
         public IActionResult PostSquare(SquareInsert square)
         {
             if (ModelState.IsValid)
-            {
-                SquareCatalogContext context = new SquareCatalogContext();                
-                Delegation delegation = context.Delegations.Find(square.DelegationId);
-                context.Squares.Add(new Square
+            {                               
+                Delegation delegation = _dbcontext.Delegations.Find(square.DelegationId);
+                _dbcontext.Squares.Add(new Square
                 {
                    SquareId = square.SquareId,
                    Name = square.Name,
                    Delegation = delegation
                 });
-                var res = context.SaveChanges();
+                var res = _dbcontext.SaveChanges();
                 return Ok(res);                
             }
             return BadRequest();
