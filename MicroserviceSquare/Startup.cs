@@ -1,4 +1,5 @@
 using MicroserviceSquare.Context;
+using MicroserviceSquare.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +34,10 @@ namespace MicroserviceSquare
             var user = Configuration["dbUser"] ?? "sa2";
             var password = Configuration["dbPassword"] ?? "CAPUFE";
             var database = Configuration["dbName"] ?? "testsquare";
+
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IDelegationRepository, DelegationRepository>();
+
             services.AddDbContext<SquareCatalogContext>(options =>
             {
                 options.UseSqlServer($"Server={server};Database={database};User Id={user};Password={password}");

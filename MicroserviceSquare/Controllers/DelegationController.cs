@@ -1,6 +1,7 @@
 ﻿using MicroserviceSquare.Context;
 using MicroserviceSquare.Models;
 using MicroserviceSquare.ModelsHelper.Delegacion;
+using MicroserviceSquare.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace MicroserviceSquare.Controllers
     public class DelegationController : ControllerBase
     {               
         private readonly SquareCatalogContext _dbcontext;
+        private readonly IDelegationRepository _repository;
 
-        public DelegationController(SquareCatalogContext squareCatalogContext)
+        public DelegationController(SquareCatalogContext squareCatalogContext, IDelegationRepository delegationrepository)
         {
             _dbcontext = squareCatalogContext;
+            _repository = delegationrepository;
         }
 
         [HttpGet]
