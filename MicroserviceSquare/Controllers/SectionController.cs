@@ -32,12 +32,12 @@ namespace MicroserviceSquare.Controllers
         {
             if (ModelState.IsValid)
             {                
-                Square square = _dbcontext.Squares.Find(section.SquareId);
+                //Square square = _dbcontext.Squares.Find(section.SquareId);
                 _dbcontext.Sections.Add(new Section
                 {
                     SectionId = section.SectionId,
                     Name = section.Name,
-                    Square = square
+                    SquareId = section.SquareId
                 });
                 var res = _dbcontext.SaveChanges();
                 return Ok(res);

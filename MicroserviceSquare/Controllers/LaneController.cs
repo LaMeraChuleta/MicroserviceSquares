@@ -42,8 +42,8 @@ namespace MicroserviceSquare.Controllers
                     NumberProvider = lane.NumberProvider,
                     NumberGea = lane.NumberGea,
                     TypeLane = typelane,
-                    Section = section,
-                    Square = square
+                    SectionId = lane.SectionId,
+                    SquareId = lane.SquareId
                 });
                 var res = _dbcontext.SaveChanges();
                 return Ok(res);

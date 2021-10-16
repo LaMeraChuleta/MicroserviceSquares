@@ -37,7 +37,7 @@ namespace MicroserviceSquare.Migrations
                 {
                     SquareId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DelegationId = table.Column<string>(type: "nvarchar(6)", nullable: true)
+                    DelegationId = table.Column<string>(type: "nvarchar(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,7 +47,7 @@ namespace MicroserviceSquare.Migrations
                         column: x => x.DelegationId,
                         principalTable: "Delegations",
                         principalColumn: "DelegationId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +57,7 @@ namespace MicroserviceSquare.Migrations
                     SectionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SquareId = table.Column<string>(type: "nvarchar(6)", nullable: true)
+                    SquareId = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,7 +67,7 @@ namespace MicroserviceSquare.Migrations
                         column: x => x.SquareId,
                         principalTable: "Squares",
                         principalColumn: "SquareId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,8 +79,8 @@ namespace MicroserviceSquare.Migrations
                     NumberProvider = table.Column<int>(type: "int", nullable: false),
                     NumberGea = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TypeLaneId = table.Column<int>(type: "int", nullable: false),
-                    SectionId = table.Column<int>(type: "int", nullable: true),
-                    SquareId = table.Column<string>(type: "nvarchar(6)", nullable: true)
+                    SquareId = table.Column<string>(type: "nvarchar(6)", nullable: false),
+                    SectionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,14 +89,12 @@ namespace MicroserviceSquare.Migrations
                         name: "FK_Lanes_Sections_SectionId",
                         column: x => x.SectionId,
                         principalTable: "Sections",
-                        principalColumn: "SectionId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "SectionId");
                     table.ForeignKey(
                         name: "FK_Lanes_Squares_SquareId",
                         column: x => x.SquareId,
                         principalTable: "Squares",
-                        principalColumn: "SquareId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "SquareId");
                     table.ForeignKey(
                         name: "FK_Lanes_TypeLanes_TypeLaneId",
                         column: x => x.TypeLaneId,
