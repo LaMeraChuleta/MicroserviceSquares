@@ -1,5 +1,6 @@
 ﻿using MicroserviceSquare.Context;
 using MicroserviceSquare.Models;
+using MicroserviceSquare.ModelsHelper.Delegacion;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,16 @@ namespace MicroserviceSquare.Controllers
             return Ok(res);                      
         }
         [HttpPost]
-        public IActionResult PostDelegation(Delegation delegation)
+        public IActionResult PostDelegation(DelegationInsert delegation)
         {            
             if (ModelState.IsValid)
             {
 
-                _dbcontext.Delegations.Add(delegation);
+                _dbcontext.Delegations.Add(new Delegation 
+                {    
+                    DelegationId = delegation.DelegationId,
+                    Name = delegation.Name,
+                });
                 var res = _dbcontext.SaveChanges();
                 return Ok(res);                
             }

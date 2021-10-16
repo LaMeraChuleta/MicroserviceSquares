@@ -32,17 +32,12 @@ namespace MicroserviceSquare.Context
 
             modelBuilder.Entity<Lane>().HasOne(l => l.Square).WithMany(s => s.Lanes).IsRequired().OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Lane>().HasOne(l => l.Section).WithMany(s => s.Lanes).IsRequired().OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<Lane>().Property(l => l.SquareId).IsRequired();
-            modelBuilder.Entity<Lane>().Property(l => l.SectionId).IsRequired();
-                        
-
+                                    
         }
         public DbSet<Delegation> Delegations { get; set; }
         public DbSet<Square> Squares { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Lane> Lanes { get; set; }
         public DbSet<TypeLane> TypeLanes { get; set; }
-
     }
 }

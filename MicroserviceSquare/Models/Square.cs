@@ -11,7 +11,6 @@ namespace MicroserviceSquare.Models
         public string Name { get; set; }
         public string DelegationId { get; set; }
         public IEnumerable<Section> Sections { get; set; }
-        public IEnumerable<Lane> Lanes { get; set; }
-        //public  Delegation Delegation { get; set; }                
+        public IEnumerable<Lane> Lanes { get; set; }           
     }
 }
