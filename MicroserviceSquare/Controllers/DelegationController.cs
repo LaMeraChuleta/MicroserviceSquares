@@ -14,8 +14,8 @@ namespace MicroserviceSquare.Controllers
     [Route("[controller]")]
     public class DelegationController : ControllerBase
     {               
-        private readonly SquareCatalogContext _dbcontext;
-        private readonly IDelegationRepository _repository;
+        private readonly SquareCatalogContext _dbcontext;        
+        private readonly IDelegationRepository _repository;        
 
         public DelegationController(SquareCatalogContext squareCatalogContext, IDelegationRepository delegationrepository)
         {
@@ -24,9 +24,10 @@ namespace MicroserviceSquare.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetDelegations()
-        {                   
-            var res = _dbcontext.Delegations.Select(x => x);
+        public async Task<IActionResult> GetDelegations()
+        {
+            //var res = _dbcontext.Delegations.Select(x => x);
+            var res = await _repository.GetDelegation();
             return Ok(res);                      
         }
         [HttpPost]
