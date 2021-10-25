@@ -28,10 +28,10 @@ namespace MicroserviceSquare
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var server = Configuration["dbServer"] ?? "LAPTOP-HB3OGAHI\\MSSQLSERVER01";
+            var server = Configuration["dbServer"] ?? "10.1.1.159";
             var port = Configuration["dbPort"] ?? "1433";
-            var user = Configuration["dbUser"] ?? "sa2";
-            var password = Configuration["dbPassword"] ?? "CAPUFE";
+            var user = Configuration["dbUser"] ?? "sa";
+            var password = Configuration["dbPassword"] ?? "LaVacaLoca16";
             var database = Configuration["dbName"] ?? "testsquare";
             services.AddDbContext<SquareCatalogContext>(options =>
             {

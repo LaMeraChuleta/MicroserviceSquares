@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MicroserviceSquare.Migrations
 {
     [DbContext(typeof(SquareCatalogContext))]
-    [Migration("20211014030532_init")]
-    partial class init
+    [Migration("20211015195959_chageKeySquareNotNull2")]
+    partial class chageKeySquareNotNull2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,7 +95,10 @@ namespace MicroserviceSquare.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
-                    b.Property<string>("DelegationId")
+                    b.Property<int>("DelegationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DelegationId1")
                         .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Name")
@@ -103,7 +106,7 @@ namespace MicroserviceSquare.Migrations
 
                     b.HasKey("SquareId");
 
-                    b.HasIndex("DelegationId");
+                    b.HasIndex("DelegationId1");
 
                     b.ToTable("Squares");
                 });
@@ -157,11 +160,14 @@ namespace MicroserviceSquare.Migrations
 
             modelBuilder.Entity("MicroserviceSquare.Models.Square", b =>
                 {
-                    b.HasOne("MicroserviceSquare.Models.Delegation", "Delegation")
-                        .WithMany()
-                        .HasForeignKey("DelegationId");
+                    b.HasOne("MicroserviceSquare.Models.Delegation", null)
+                        .WithMany("Squares")
+                        .HasForeignKey("DelegationId1");
+                });
 
-                    b.Navigation("Delegation");
+            modelBuilder.Entity("MicroserviceSquare.Models.Delegation", b =>
+                {
+                    b.Navigation("Squares");
                 });
 
             modelBuilder.Entity("MicroserviceSquare.Models.TypeLane", b =>

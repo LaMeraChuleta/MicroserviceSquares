@@ -4,14 +4,16 @@ using MicroserviceSquare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MicroserviceSquare.Migrations
 {
     [DbContext(typeof(SquareCatalogContext))]
-    partial class SquareCatalogContextModelSnapshot : ModelSnapshot
+    [Migration("20211015195833_chageKeySquareNotNull")]
+    partial class chageKeySquareNotNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,9 +160,11 @@ namespace MicroserviceSquare.Migrations
 
             modelBuilder.Entity("MicroserviceSquare.Models.Square", b =>
                 {
-                    b.HasOne("MicroserviceSquare.Models.Delegation", null)
+                    b.HasOne("MicroserviceSquare.Models.Delegation", "Delegation")
                         .WithMany("Squares")
                         .HasForeignKey("DelegationId1");
+
+                    b.Navigation("Delegation");
                 });
 
             modelBuilder.Entity("MicroserviceSquare.Models.Delegation", b =>

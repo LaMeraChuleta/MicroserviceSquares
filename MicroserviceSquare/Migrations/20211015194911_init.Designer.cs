@@ -4,14 +4,16 @@ using MicroserviceSquare.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MicroserviceSquare.Migrations
 {
     [DbContext(typeof(SquareCatalogContext))]
-    partial class SquareCatalogContextModelSnapshot : ModelSnapshot
+    [Migration("20211015194911_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,10 +95,7 @@ namespace MicroserviceSquare.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
 
-                    b.Property<int>("DelegationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DelegationId1")
+                    b.Property<string>("DelegationId")
                         .HasColumnType("nvarchar(6)");
 
                     b.Property<string>("Name")
@@ -104,7 +103,7 @@ namespace MicroserviceSquare.Migrations
 
                     b.HasKey("SquareId");
 
-                    b.HasIndex("DelegationId1");
+                    b.HasIndex("DelegationId");
 
                     b.ToTable("Squares");
                 });
@@ -158,14 +157,11 @@ namespace MicroserviceSquare.Migrations
 
             modelBuilder.Entity("MicroserviceSquare.Models.Square", b =>
                 {
-                    b.HasOne("MicroserviceSquare.Models.Delegation", null)
-                        .WithMany("Squares")
-                        .HasForeignKey("DelegationId1");
-                });
+                    b.HasOne("MicroserviceSquare.Models.Delegation", "Delegation")
+                        .WithMany()
+                        .HasForeignKey("DelegationId");
 
-            modelBuilder.Entity("MicroserviceSquare.Models.Delegation", b =>
-                {
-                    b.Navigation("Squares");
+                    b.Navigation("Delegation");
                 });
 
             modelBuilder.Entity("MicroserviceSquare.Models.TypeLane", b =>
