@@ -31,19 +31,16 @@ namespace MicroserviceSquare.Controllers
         public IActionResult PostLane(LaneInsert lane)
         {
             if (ModelState.IsValid)
-            {
-                
-                Square square = _dbcontext.Squares.Find(lane.SquareId);
-                Section section = _dbcontext.Sections.Find(lane.SectionId);
+            {                                                
                 TypeLane typelane = _dbcontext.TypeLanes.Find(lane.TypeLaneId);
 
                 _dbcontext.Lanes.Add(new Lane
                 {
                     NumberProvider = lane.NumberProvider,
                     NumberGea = lane.NumberGea,
-                    TypeLane = typelane,
-                    Section = section,
-                    Square = square
+                    TypeLaneId = lane.TypeLaneId,
+                    SectionId = lane.SectionId,
+                    SquareId = lane.SquareId
                 });
                 var res = _dbcontext.SaveChanges();
                 return Ok(res);

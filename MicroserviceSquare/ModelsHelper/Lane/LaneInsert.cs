@@ -11,7 +11,7 @@ namespace MicroserviceSquare.ModelsHelper.Lane
         public int NumberProvider { get; set; }
         public string NumberGea { get; set; }
         public int TypeLaneId { get; set; }
-        public string SectionId { get; set; }
+        public int SectionId { get; set; }
         public string SquareId { get; set; }        
     }
 }

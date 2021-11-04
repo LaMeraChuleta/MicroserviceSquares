@@ -32,12 +32,13 @@ namespace MicroserviceSquare.Controllers
         {
             if (ModelState.IsValid)
             {                               
-                Delegation delegation = _dbcontext.Delegations.Find(square.DelegationId);
+                //Delegation delegation = _dbcontext.Delegations.Find(square.DelegationId);
                 _dbcontext.Squares.Add(new Square
                 {
                    SquareId = square.SquareId,
                    Name = square.Name,
-                   Delegation = delegation
+                   DelegationId = square.DelegationId
+                   //Delegation = delegation
                 });
                 var res = _dbcontext.SaveChanges();
                 return Ok(res);                
