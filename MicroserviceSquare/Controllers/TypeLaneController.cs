@@ -1,6 +1,8 @@
-﻿using MicroserviceSquare.Context;
+﻿using AutoMapper;
+using MicroserviceSquare.Context;
 using MicroserviceSquare.Models;
 using MicroserviceSquare.ModelsHelper.Lane;
+using MicroserviceSquare.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,30 +16,28 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     public class TypeLaneController : ControllerBase
     {
-        private readonly SquareCatalogContext _dbcontext;
-
-        public TypeLaneController(SquareCatalogContext squareCatalogContext)
+        private readonly IRepository<TypeLane> _repository;
+        private readonly IMapper _mapper;
+        public TypeLaneController(IRepository<TypeLane> repository, IMapper mapper)
         {
-            _dbcontext = squareCatalogContext;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetTypeLanes()
-        {            
-            var res = _dbcontext.TypeLanes.Select(x => x);
+        {
+            var res = _repository.GetAll();
             return Ok(res);
         }
         [HttpPost]
-        public IActionResult PostTypeLane(TypeLaneInsert typeLane)
+        public async Task<IActionResult> PostTypeLane(TypeLaneInsert typeLaneInsert)
         {
             if (ModelState.IsValid)
-            {
-                _dbcontext.TypeLanes.Add(new TypeLane
-                {
-                    Name = typeLane.Name,
-                });
-                var res = _dbcontext.SaveChanges();
-                return Ok(res);
+            {             
+                var typeLaneMapper = _mapper.Map<TypeLane>(typeLaneInsert);
+                var res = await _repository.AddAsync(typeLaneMapper);
+                return Ok();
             }
             return BadRequest();
         }

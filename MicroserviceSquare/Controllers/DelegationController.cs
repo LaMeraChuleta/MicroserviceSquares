@@ -14,40 +14,32 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     [Route("[controller]")]
     public class DelegationController : ControllerBase
-    {
-        private readonly SquareCatalogContext _dbcontext;
+    {        
         private readonly IDelegationRepository _repository;
         private readonly IMapper _mapper;
 
-        public DelegationController(SquareCatalogContext squareCatalogContext, IDelegationRepository delegationrepository, IMapper mapper)
-        {
-            _dbcontext = squareCatalogContext;
+        public DelegationController(IDelegationRepository delegationrepository, IMapper mapper)
+        {            
             _repository = delegationrepository;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public IActionResult GetDelegations()
+        public async Task<IActionResult> GetDelegations()
         {
-            var res = _repository.GetAll();
+            var res = await _repository.GetAllDelegationBasicAsync();
             return Ok(res);
         }
         [HttpPost]
-        public async Task<IActionResult> PostDelegation(Delegation delegation)
-        {
-            var res = await _repository.AddAsync(delegation);
-            return Ok(res);
-        }
-        [HttpPost("Other")]
-        public async Task<IActionResult> PostDelegation2(DelegationInsert delegationinsert)
+        public async Task<IActionResult> PostDelegation(DelegationInsert delegationinsert)
         {
             if (ModelState.IsValid)
             {
-                var delegationMap = _mapper.Map<Delegation>(delegationinsert);           
+                var delegationMap = _mapper.Map<Delegation>(delegationinsert);
                 var res = await _repository.AddAsync(delegationMap);
                 return Ok();
             }
             return BadRequest();
-        }
+        }    
     }
 }

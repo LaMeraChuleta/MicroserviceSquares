@@ -9,6 +9,6 @@ namespace MicroserviceSquare.Repository
 {
     public interface IDelegationRepository: IRepository<Delegation>
     {
-        Task<List<DelegationSelectBasic>> GetDelegationListBasic();
+        Task<List<DelegationSelectBasic>> GetAllDelegationBasicAsync();
     }
 }

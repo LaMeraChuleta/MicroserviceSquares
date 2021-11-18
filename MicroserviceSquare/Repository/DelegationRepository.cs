@@ -16,13 +16,13 @@ namespace MicroserviceSquare.Repository
 
         }
 
-        public Task<List<DelegationSelectBasic>> GetDelegationListBasic()
-        {
-            return GetAll().Select(x => new DelegationSelectBasic
+        public async Task<List<DelegationSelectBasic>> GetAllDelegationBasicAsync()
+        {            
+            return await GetAll().Select(x => new DelegationSelectBasic
             {
                 DelegationId = x.DelegationId,
                 Name = x.Name
-            }).ToListAsync();
+            }).ToListAsync();            
         }
     }           
 }

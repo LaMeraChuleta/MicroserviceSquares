@@ -1,7 +1,9 @@
-﻿using MicroserviceSquare.Context;
+﻿using AutoMapper;
+using MicroserviceSquare.Context;
 using MicroserviceSquare.Models;
 using MicroserviceSquare.ModelsHelper.Lane;
 using MicroserviceSquare.ModelsHelper.Section;
+using MicroserviceSquare.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,35 +17,28 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     public class LaneController : ControllerBase
     {
-        private readonly SquareCatalogContext _dbcontext;
+        private readonly IRepository<Lane> _repository;
+        private readonly IMapper _mapper;
 
-        public LaneController(SquareCatalogContext squareCatalogContext)
-        {
-            _dbcontext = squareCatalogContext;
+        public LaneController(IRepository<Lane> repository, IMapper mapper)
+        {            
+            _repository = repository;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult GetLanes()
-        {            
-            var res = _dbcontext.Lanes.Select(x => x);
+        {
+            var res = _repository.GetAll();
             return Ok(res);
         }
         [HttpPost]
-        public IActionResult PostLane(LaneInsert lane)
+        public async Task<IActionResult> PostLane(LaneInsert laneInsert)
         {
             if (ModelState.IsValid)
-            {                                                
-                TypeLane typelane = _dbcontext.TypeLanes.Find(lane.TypeLaneId);
-
-                _dbcontext.Lanes.Add(new Lane
-                {
-                    NumberProvider = lane.NumberProvider,
-                    NumberGea = lane.NumberGea,
-                    TypeLaneId = lane.TypeLaneId,
-                    SectionId = lane.SectionId,
-                    SquareId = lane.SquareId
-                });
-                var res = _dbcontext.SaveChanges();
-                return Ok(res);
+            {
+                var laneMapper = _mapper.Map<Lane>(laneInsert);
+                var res = await _repository.AddAsync(laneMapper);
+                return Ok();
             }
             return BadRequest();
         }

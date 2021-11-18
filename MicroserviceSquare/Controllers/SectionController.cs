@@ -1,6 +1,8 @@
-﻿using MicroserviceSquare.Context;
+﻿using AutoMapper;
+using MicroserviceSquare.Context;
 using MicroserviceSquare.Models;
 using MicroserviceSquare.ModelsHelper.Section;
+using MicroserviceSquare.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,32 +16,28 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     public class SectionController : ControllerBase
     {
-        private readonly SquareCatalogContext _dbcontext;
+        private readonly IRepository<Section> _repository;
+        private readonly IMapper _mapper;
 
-        public SectionController(SquareCatalogContext squareCatalogContext)
+        public SectionController(IRepository<Section> repository, IMapper mapper)
         {
-            _dbcontext = squareCatalogContext;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetSections()
-        {            
-            var res = _dbcontext.Sections.Select(x => x);
+        {
+            var res = _repository.GetAll();
             return Ok(res);
         }
         [HttpPost]
-        public IActionResult PostSection(SectionInsert section)
+        public async Task<IActionResult> PostSection(SectionInsert sectionInsert)
         {
             if (ModelState.IsValid)
-            {                
-                //Square square = _dbcontext.Squares.Find(section.SquareId);
-                _dbcontext.Sections.Add(new Section
-                {
-                    SectionId = section.SectionId,
-                    Name = section.Name,
-                    SquareId = section.SquareId
-                });
-                var res = _dbcontext.SaveChanges();
+            {
+                var sectionMapper = _mapper.Map<Section>(sectionInsert);
+                var res = await _repository.AddAsync(sectionMapper);
                 return Ok(res);
             }
             return BadRequest();

@@ -1,6 +1,8 @@
-﻿using MicroserviceSquare.Context;
+﻿using AutoMapper;
+using MicroserviceSquare.Context;
 using MicroserviceSquare.Models;
 using MicroserviceSquare.ModelsHelper.Square;
+using MicroserviceSquare.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,34 +16,29 @@ namespace MicroserviceSquare.Controllers
     [ApiController]
     public class SquareController : ControllerBase
     {
-        private readonly SquareCatalogContext _dbcontext;
+        private readonly IRepository<Square> _repository;
+        private readonly IMapper _mapper;
 
-        public SquareController(SquareCatalogContext squareCatalogContext)
+        public SquareController(IRepository<Square> repository, IMapper mapper)
         {
-            _dbcontext = squareCatalogContext;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult GetSquares()
-        {            
-            var res = _dbcontext.Squares.Select(x => x);
+        {
+            var res = _repository.GetAll();
             return Ok(res);                                    
         }
         [HttpPost]
-        public IActionResult PostSquare(SquareInsert square)
+        public async Task<IActionResult> PostSquare(SquareInsert squareInsert)
         {
             if (ModelState.IsValid)
-            {                               
-                //Delegation delegation = _dbcontext.Delegations.Find(square.DelegationId);
-                _dbcontext.Squares.Add(new Square
-                {
-                   SquareId = square.SquareId,
-                   Name = square.Name,
-                   DelegationId = square.DelegationId
-                   //Delegation = delegation
-                });
-                var res = _dbcontext.SaveChanges();
-                return Ok(res);                
+            {       
+                var squareMapper = _mapper.Map<Square>(squareInsert);
+                var res = await _repository.AddAsync(squareMapper);
+                return Ok();                
             }
             return BadRequest();
         }
