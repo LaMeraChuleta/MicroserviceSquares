@@ -17,7 +17,7 @@ namespace MicroserviceSquare.Context
         {
             if (optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=10.1.1.159;Database=testsquare;User Id=sa;Password=LaVacaLoca16;");
+                optionsBuilder.UseSqlServer($"Server=localhost,1434;Database=testSquare;User Id=SA;Password=LaVacaLoca16");
             }                            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

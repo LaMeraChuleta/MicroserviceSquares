@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MicroserviceSquare.Migrations
 {
     [DbContext(typeof(SquareCatalogContext))]
-    [Migration("20211025152844_init")]
+    [Migration("20211118174011_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

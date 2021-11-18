@@ -29,18 +29,13 @@ namespace MicroserviceSquare
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var server = Configuration["dbServer"] ?? "10.1.1.159";
-            var port = Configuration["dbPort"] ?? "1433";
-            var user = Configuration["dbUser"] ?? "sa";
-            var password = Configuration["dbPassword"] ?? "LaVacaLoca16";
-            var database = Configuration["dbName"] ?? "testsquare";
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddTransient<IDelegationRepository, DelegationRepository>();
 
             services.AddDbContext<SquareCatalogContext>(options =>
             {
-                options.UseSqlServer($"Server={server};Database={database};User Id={user};Password={password}");
+                options.UseSqlServer($"Server=localhost,1434;Database=testSquare;User Id=SA;Password=LaVacaLoca16");
             });
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -57,8 +52,7 @@ namespace MicroserviceSquare
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MicroserviceSquare v1"));
-            }
-
+            }            
             app.UseHttpsRedirection();
             app.UseDeveloperExceptionPage();
             app.UseRouting();

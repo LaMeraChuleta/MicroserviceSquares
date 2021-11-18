@@ -1,4 +1,5 @@
-﻿using MicroserviceSquare.Context;
+﻿using AutoMapper;
+using MicroserviceSquare.Context;
 using MicroserviceSquare.Models;
 using MicroserviceSquare.ModelsHelper.Delegacion;
 using MicroserviceSquare.Repository;
@@ -16,11 +17,13 @@ namespace MicroserviceSquare.Controllers
     {
         private readonly SquareCatalogContext _dbcontext;
         private readonly IDelegationRepository _repository;
+        private readonly IMapper _mapper;
 
-        public DelegationController(SquareCatalogContext squareCatalogContext, IDelegationRepository delegationrepository)
+        public DelegationController(SquareCatalogContext squareCatalogContext, IDelegationRepository delegationrepository, IMapper mapper)
         {
             _dbcontext = squareCatalogContext;
             _repository = delegationrepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -35,20 +38,16 @@ namespace MicroserviceSquare.Controllers
             var res = await _repository.AddAsync(delegation);
             return Ok(res);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> PostDelegation2(DelegationInsert delegationinsert)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        Delegation delegation = new Delegation
-        //        {
-        //            DelegationId = delegationinsert.DelegationId,
-        //            Name = delegationinsert.Name,
-        //        };
-        //        var res = await _repository.AddAsync(delegation);
-        //        return Ok();
-        //    }
-        //    return BadRequest();
-        //}
+        [HttpPost("Other")]
+        public async Task<IActionResult> PostDelegation2(DelegationInsert delegationinsert)
+        {
+            if (ModelState.IsValid)
+            {
+                var delegationMap = _mapper.Map<Delegation>(delegationinsert);           
+                var res = await _repository.AddAsync(delegationMap);
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 }

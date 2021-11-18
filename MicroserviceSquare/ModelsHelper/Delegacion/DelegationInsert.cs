@@ -12,6 +12,5 @@ namespace MicroserviceSquare.ModelsHelper.Delegacion
         public string DelegationId { get; set; }
         public string Name { get; set; }
        
-    }
-   
+    }   
 }
