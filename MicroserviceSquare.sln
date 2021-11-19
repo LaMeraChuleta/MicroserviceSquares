@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroserviceSquare", "MicroserviceSquare\MicroserviceSquare.csproj", "{07F48BA1-01CC-4698-8DD2-DB40CF7D563F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroserviceSquare", "MicroserviceSquare\MicroserviceSquare.csproj", "{07F48BA1-01CC-4698-8DD2-DB40CF7D563F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
