@@ -1,24 +1,17 @@
 ﻿using MicroserviceSquare.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MicroserviceSquare.Context
 {
     public class SquareCatalogContext : DbContext
     {
-        public SquareCatalogContext(DbContextOptions<SquareCatalogContext> options) : base(options)
+        public SquareCatalogContext()
         {
 
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public SquareCatalogContext(DbContextOptions<SquareCatalogContext> options) : base(options)
         {
-            if (optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer($"Server=localhost,1434;Database=testSquare;User Id=SA;Password=LaVacaLoca16");
-            }                            
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

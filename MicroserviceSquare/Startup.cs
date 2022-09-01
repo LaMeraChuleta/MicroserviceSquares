@@ -2,18 +2,11 @@ using MicroserviceSquare.Context;
 using MicroserviceSquare.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MicroserviceSquare
 {
@@ -24,18 +17,21 @@ namespace MicroserviceSquare
             Configuration = configuration;
         }
 
+        //string corsPolity = "AllowAllOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //add cors for any origin             
+            //services.AddCors();
             services.AddAutoMapper(typeof(Startup));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<IDelegationRepository, DelegationRepository>();
-
+            services.AddTransient<IDelegationRepository, DelegationRepository>();            
             services.AddDbContext<SquareCatalogContext>(options =>
             {
-                options.UseSqlServer($"Server=localhost,1434;Database=testSquare;User Id=SA;Password=LaVacaLoca16");
+                options.UseSqlServer($"Server=localhost;Database=testSquare;User Id=SA;Password=LaVacaLoca16");                                
             });
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -58,7 +54,6 @@ namespace MicroserviceSquare
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

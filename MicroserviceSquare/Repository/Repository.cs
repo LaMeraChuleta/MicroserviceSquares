@@ -1,6 +1,5 @@
 ﻿using MicroserviceSquare.Context;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +13,6 @@ namespace MicroserviceSquare.Repository
         {
             _SquareCatalogContext = squareCatalogContext;
         }
-
         public IQueryable<TEntity> GetAll()
         {
             return _SquareCatalogContext.Set<TEntity>();

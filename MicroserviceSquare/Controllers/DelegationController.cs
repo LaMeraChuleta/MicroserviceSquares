@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using MicroserviceSquare.Context;
 using MicroserviceSquare.Models;
 using MicroserviceSquare.ModelsHelper.Delegacion;
 using MicroserviceSquare.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MicroserviceSquare.Controllers

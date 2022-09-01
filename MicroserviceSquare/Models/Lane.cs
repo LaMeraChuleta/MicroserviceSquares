@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MicroserviceSquare.Models
+﻿namespace MicroserviceSquare.Models
 {
     public class Lane
     {
